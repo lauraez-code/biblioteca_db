@@ -31,6 +31,7 @@ while True:
 
             if op == "1":
                 while True:
+                    print("\n================= SEU USUÁRIO =================")
                     print("\n[1] - Fazer login")
                     print("\n[2] - Não tem conta? Cadastre-se")
                     print("\n[3] - Sair")
@@ -43,7 +44,7 @@ while True:
 
                     elif opp == "1":
                         print("\n\n============================")
-                        print("\n>> Login:\n")
+                        print("\n>> Login:")
                         fazer_emprestimo_ver_historico()
 
                     elif opp == "3":

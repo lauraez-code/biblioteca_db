@@ -24,8 +24,9 @@ def fazer_emprestimo_ver_historico():
         conn.row_factory = sqlite.Row
         cursor = conn.cursor()
 
+
         nome_usu = input("\nDigite seu nome de usuário: ")
-        senha_usu = input("Digite sua senha: ")
+        senha_usu = input("\nDigite sua senha: ")
 
         tem_usuario = False
 
@@ -44,21 +45,21 @@ def fazer_emprestimo_ver_historico():
 
         if tem_usuario == True:
 
-            print("\n\n============================")
-            print(f"\n>> Olá, {nome_usu}!")
-
             while True:
-
+                print("\n\n============================")
+                print(f"\n>> Olá, {nome_usu}!")
+                print("\n\n============================")
+                print("\n>> O que você deseja fazer hoje?")
                 print("\n[1] - Fazer empréstimo")
                 print("\n[2] - Ver histórico")
                 print("\n[3] - Sair")
                 op = input("\n>> Escolha uma opção: ")
 
                 if op == "1":
-
+                    print("\n================= EMPRESTIMO =================")
                     livro = input("\nDigite o nome do livro: ")
                     data_hoje = input("\nDigite o dia de hoje (DD/MM/AAAA): ")
-                    devolucao = int(input("Digite o período do emprestimo em dias: "))
+                    devolucao = int(input("\nDigite o período do emprestimo em dias: "))
 
                     comando_sql = "SELECT id FROM livros WHERE titulo = ?"
                     cursor.execute(comando_sql, (livro,))
@@ -66,22 +67,22 @@ def fazer_emprestimo_ver_historico():
 
                     data_emprestimo = datetime.strptime(data_hoje, "%d/%m/%Y").date()
 
-                    nova_data = data_emprestimo + timedelta(days=devolucao)
-
-                    data_devolucao = datetime.strptime(nova_data, "%d/%m/%Y").date()
+                    data_devolucao = data_emprestimo + timedelta(days=devolucao)
 
                     cursor.execute("INSERT INTO emprestimos (livro_id, usuario_id, data_emprestimo, data_devolucao) VALUES (?,?,?,?)", 
                                    (livro_id, usuario_id, data_emprestimo, data_devolucao,))
                     conn.commit()
+                    print("\n>> Emprestimo realizado com sucesso!")
                     
 
                 elif op == "2":
+                    print(f"\n================= HISTÓRICO DE {nome_usu} =================")
                     cursor.execute("SELECT * FROM emprestimos")
                     emprestimos = cursor.fetchall()
 
                     for i in emprestimos:
 
-                        if i['id_usuario'] == usuario_id:
+                        if i['usuario_id'] == usuario_id:
 
                             comando_sql1 = "SELECT titulo FROM livros WHERE id = ?"
                             cursor.execute(comando_sql1, (i['livro_id'],))
@@ -89,6 +90,8 @@ def fazer_emprestimo_ver_historico():
 
                             print(f"\n Livro: {nome_livro}")
                             print(f" Data de execução do empréstimo: {i['data_emprestimo']}")
+                            print("=================")
+        
 
                 elif op == "3":
                     break
@@ -125,12 +128,12 @@ def listar_usuarios():
 
         for linha in usuarios:
 
-            print(f"\n>> Id: {linha['id']}\n\nNome: {linha['nome']}")
+            print(f"\n>> Id: {linha['id']}\nNome: {linha['nome']}")
 
             print("\nHistórico de empréstimos:")
 
             for i in emprestimos:
-                if i['id_usuario'] == linha['id']:
+                if i['usuario_id'] == linha['id']:
 
                     comando_sql1 = "SELECT titulo FROM livros WHERE id = ?"
                     cursor.execute(comando_sql1, (linha['livro_id'],))
@@ -138,7 +141,8 @@ def listar_usuarios():
 
                     print(f"\n Livro: {nome_livro}")
                     print(f" Data de execução do empréstimo: {i['data_emprestimo']}")
-                
+                    print(f"Data de devolução: {i['data_devolucao']}")
+                    print("====================")
     conn.close()
 
 def listar_emprestimos():
@@ -171,6 +175,7 @@ def listar_emprestimos():
             print(f"Usuário: {nome_usu}")
             print(f"Data do empréstimo: {i['data_emprestimo']}")
             print(f"Data devolução: {i['data_devolucao']}")
+            print("\n====================\n")
     
         conn.close()
 

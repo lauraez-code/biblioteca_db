@@ -16,15 +16,14 @@ def cadastrar_livro_autor_editora():
         editora = input("\nDigite a editora do livro: ")
         ano_publicacao = input("\nDigite o ano de publicação do livro: ")
         edicao = input("\nDigite a edição do livro: ")
-        disponivel_input = input("Digite 1 para disponível e 2 para indisponível: ")
+        disponivel_input = input("\nDigite 1 para disponível e 2 para indisponível: ")
 
         if disponivel_input == "1":
-            disponivel == True
+            disponivel = True
             print("\n>> Cadastro concluido com sucesso!")
             break
 
         elif disponivel_input == "2":
-            pass
             print("\n>> Cadastro concluido com sucesso!")
             break
         else:
@@ -40,7 +39,7 @@ def cadastrar_livro_autor_editora():
 
     for i in autores:
         if i['nome'] == autor:
-            ja_tem_autor == True
+            ja_tem_autor = True
         else:
             pass
 
@@ -62,7 +61,7 @@ def cadastrar_livro_autor_editora():
 
     for i in editoras:
         if i['nome'] == editora:
-            ja_tem_editora == True
+            ja_tem_editora = True
         else:
             pass
 
@@ -120,12 +119,14 @@ def listar_livros():
             nome_editora = cursor.fetchone()[0]
 
 
-            print(f"\n>> Id: {linha['id']}\n\nTítulo: {linha['titulo']}\n\n  Autor: {nome_autor}\n  Editora: {nome_editora}\n  Edição: {linha['edicao']}\n  Ano Publicação{linha['ano_publicacao']}")
+            print(f"\nTítulo: {linha['titulo']}\n\n  >> Id: {linha['id']}\n\n\n  Autor: {nome_autor}\n  Editora: {nome_editora}\n  Edição: {linha['edicao']}\n  Ano Publicação: {linha['ano_publicacao']}")
 
-            if linha['disponivel'] == True:
-                print("\n>> Disponível")
+            if linha['disponivel'] == 1:
+                print("\n  >> Disponível")
             else:
-                print("\n>> Indisponível")
+                print("\n  >> Indisponível")
+
+            print("\n====================\n")
 
     conn.close()
 
@@ -154,6 +155,8 @@ def listar_autores():
             for i in livros:
                 if i['autor_id'] == linha['id']:
                     print(f"\n {i['titulo']}")
+                    print("= = = = = = = =")
+            print("\n====================\n")
 
     conn.close()
 
@@ -182,6 +185,7 @@ def listar_editoras():
             for i in livros:
                 if i['editora_id'] == linha['id']:
                     print(f"\n {i['titulo']}")
+                    
 
     conn.close()
 
