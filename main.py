@@ -1,3 +1,6 @@
+from usuarios import listar_usuarios, cadastrar_usuario
+import sqlite3
+
 while(True):
     print('\n1 - Usuário')
     print('2 - Autores')
@@ -15,11 +18,11 @@ while(True):
             int(input('Digite: '))
 
             if (menu == 1):
-                pass
+                cadastrar_usuario(sqlite3)
                 break
 
             elif (menu == 2):
-                pass
+                listar_usuarios()
                 break
 
             elif (menu == 3):
@@ -29,46 +32,10 @@ while(True):
                 print('\nAlgo deu errado!\nTente novamente.')
 
     elif (menu == 2):
-        while(True):
-            print('\n1 - Cadastrar autor')
-            print('2 - Listar autores')
-            print('3 - Voltar')
-            int(input('Digite: '))
-
-            if (menu == 1):
-                pass
-                break
-
-            elif (menu == 2):
-                pass
-                break
-
-            elif (menu == 3):
-                break
-
-            else:
-                print('\nAlgo deu errado!\nTente novamente.')
+        pass
 
     elif (menu == 3):
-        while(True):
-            print('\n1 - Cadastrar editor')
-            print('2 - Listar editores')
-            print('3 - Voltar')
-            int(input('Digite: '))
-
-            if (menu == 1):
-                pass
-                break
-
-            elif (menu == 2):
-                pass
-                break
-
-            elif (menu == 3):
-                break
-
-            else:
-                print('\nAlgo deu errado!\nTente novamente.')
+        pass
 
     elif (menu == 4):
         while(True):
