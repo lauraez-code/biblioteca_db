@@ -79,16 +79,16 @@ def cadastrar_livro_autor_editora():
 
     comando_sql1 = "SELECT id FROM autores WHERE nome = ?"
     cursor.execute(comando_sql1, (autor,))
-    id_autor = cursor.fetchone
+    id_autor = cursor.fetchone()[0]
 
     comando_sql2 = "SELECT id FROM editoras WHERE nome = ?"
     cursor.execute(comando_sql2, (editora,))
-    id_editora = cursor.fetchone
+    id_editora = cursor.fetchone()[0]
 
     #Cadastrando Livro
 
-    conn.executemany("INSERT INTO livros(titulo, autor_id, editora_id, edicao, ano_publicacao, disponivel) VALUES(?,?,?,?,?,?)",
-    (titulo,), (id_autor,), (id_editora,), (edicao,), (ano_publicacao,), (disponivel,))
+    conn.execute("INSERT INTO livros (titulo, autor_id, editora_id, edicao, ano_publicacao, disponivel) VALUES(?,?,?,?,?,?)",
+    (titulo, id_autor, id_editora, edicao, ano_publicacao, disponivel,))
     conn.commit()
 
     conn.close()
@@ -106,22 +106,26 @@ def listar_livros():
 
     livros = cursor.fetchall()
 
-    for linha in livros:
-        comando_sql = "SELECT nome FROM autores WHERE = ?"
-        cursor.execute(comando_sql, (linha['autor_id']))
-        nome_autor = cursor.fetchone
-        
-        comando_sql2 = "SELECT nome FROM editoras WHERE = ?"
-        cursor.execute(comando_sql2, (linha['editora_id']))
-        nome_editora = cursor.fetchone
+    if len(livros) == 0:
+        print("\n>> Não há livros cadastrados!")
+    else:
+
+        for linha in livros:
+            comando_sql = "SELECT nome FROM autores WHERE id = ?"
+            cursor.execute(comando_sql, (linha['autor_id'],))
+            nome_autor = cursor.fetchone()[0]
+            
+            comando_sql2 = "SELECT nome FROM editoras WHERE id = ?"
+            cursor.execute(comando_sql2, (linha['editora_id'],))
+            nome_editora = cursor.fetchone()[0]
 
 
-        print(f"\n>> Id: {linha['id']}\n\nTítulo: {linha['titulo']}\n  Autor: {nome_autor}\n  Editora: {nome_editora}\n  Edição: {linha['edicao']}\n  Ano Publicação{linha['ano_publicacao']}")
+            print(f"\n>> Id: {linha['id']}\n\nTítulo: {linha['titulo']}\n\n  Autor: {nome_autor}\n  Editora: {nome_editora}\n  Edição: {linha['edicao']}\n  Ano Publicação{linha['ano_publicacao']}")
 
-        if linha['disponivel'] == True:
-            print("\n>> Disponível")
-        else:
-            print("\n>> Indisponível")
+            if linha['disponivel'] == True:
+                print("\n>> Disponível")
+            else:
+                print("\n>> Indisponível")
 
     conn.close()
 
@@ -137,14 +141,19 @@ def listar_autores():
     cursor.execute("SELECT * FROM livros")
     livros = cursor.fetchall()
 
-    for linha in autores:
+    if len(autores) == 0:
+        print("\n>> Não há autores cadastrados!")
 
-        print(f"\n>> Id: {linha['id']}\nNome: {linha['nome']}")
-        print("\nObras publicadas:")
+    else:
 
-        for i in livros:
-            if i['autor_id'] == linha['id']:
-                print(f"\n {i['titulo']}")
+        for linha in autores:
+
+            print(f"\n>> Id: {linha['id']}\nNome: {linha['nome']}")
+            print("\nObras publicadas:")
+
+            for i in livros:
+                if i['autor_id'] == linha['id']:
+                    print(f"\n {i['titulo']}")
 
     conn.close()
 
@@ -160,14 +169,19 @@ def listar_editoras():
     cursor.execute("SELECT * FROM livros")
     livros = cursor.fetchall()
 
-    for linha in editoras:
+    if len(editoras) == 0:
+        print("\n>> Não há editoras cadastradas!")
 
-        print(f"\n>> Id: {linha['id']}\nNome: {linha['nome']}")
-        print("\nObras publicadas:")
+    else:
 
-        for i in livros:
-            if i['editora_id'] == linha['id']:
-                print(f"\n {i['titulo']}")
+        for linha in editoras:
+
+            print(f"\n>> Id: {linha['id']}\nNome: {linha['nome']}")
+            print("\nObras publicadas:")
+
+            for i in livros:
+                if i['editora_id'] == linha['id']:
+                    print(f"\n {i['titulo']}")
 
     conn.close()
 
