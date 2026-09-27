@@ -1,4 +1,4 @@
-from usuarios import listar_usuarios, cadastrar_usuario
+from usuarios_emprestimos import listar_usuarios, cadastrar_usuario
 import sqlite3
 
 while(True):

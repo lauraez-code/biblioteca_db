@@ -143,15 +143,26 @@ def listar_emprestimos():
 
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM usuarios")
-    usuarios = cursor.fetchall()
-
     cursor.execute("SELECT * FROM emprestimos")
     emprestimos = cursor.fetchall
 
     for i in emprestimos:
-        pass
-            
+        
+        comando_sql = "SELECT titulo FROM livros WHERE id = ?"
+        cursor.execute(comando_sql, (i['livro_id']))
+        nome_livro = cursor.fetchone
+
+        comando_sql2 = "SELECT nome FROM usuarios WHERE id = ?"
+        cursor.execute(comando_sql2, (i['usuario_id']))
+        nome_usu = cursor.fetchone
+
+    
+        print(f"\n >> Id: {i['id']}")
+        print(f"\nLivro: {nome_livro}")
+        print(f"Usuário: {nome_usu}")
+        print(f"Data do empréstimo: {i['data_emprestimo']}")
+        print(f"Data devolução: {i['data_devolucao']}")
+  
     conn.close()
 
 
