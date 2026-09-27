@@ -1,5 +1,8 @@
 import sqlite3 as sqlite
 
+
+
+
 #abre uma conexão com o banco
 conn = sqlite.connect("biblioteca.db")
 conn.row_factory = sqlite.Row
