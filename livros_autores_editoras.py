@@ -9,7 +9,6 @@ def cadastrar_livro_autor_editora():
     cursor = conn.cursor()
 
     # Infos livro + autor + editora
-    disponivel = False
     titulo = input("\nDigite o título do livro: ")
     autor = input("\nDigite o autor do livro: ")
     editora = input("\nDigite a editora do livro: ")

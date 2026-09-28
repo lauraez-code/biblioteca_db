@@ -64,7 +64,6 @@ def fazer_emprestimo_ver_historico():
             for i in usuarios:
                 if i['email'] == email_usu and i['senha'] == senha_usu:
                     tem_usuario = True
-                    usuario_id = i['id']
                     break
                 else:
                     pass
@@ -117,8 +116,8 @@ def fazer_emprestimo_ver_historico():
 
                             data_devolucao = data_emprestimo + timedelta(days=devolucao)
 
-                            cursor.execute("INSERT INTO emprestimos (livro_id, usuario_id, data_emprestimo, data_devolucao) VALUES (?,?,?,?)", 
-                                        (livro_id, usuario_id, data_emprestimo, data_devolucao,))
+                            cursor.execute("INSERT INTO emprestimos (livro_id, usuario_email, data_emprestimo, data_devolucao) VALUES (?,?,?,?)", 
+                                        (livro_id, email_usu, data_emprestimo, data_devolucao,))
                             conn.commit()
                             print("\n>> Emprestimo realizado com sucesso!")
 
@@ -149,7 +148,7 @@ def fazer_emprestimo_ver_historico():
                         for i in emprestimos:
                             tem_historico = False
 
-                            if i['usuario_id'] == usuario_id:
+                            if i['usuario_email'] == email_usu:
                                 tem_historico = True
 
                                 comando_sql1 = "SELECT titulo FROM livros WHERE id = ?"
@@ -205,13 +204,13 @@ def listar_usuarios():
 
         for linha in usuarios:
 
-            print(f"\n>> Id: {linha['id']}\nNome: {linha['nome']}")
+            print(f"\n>> Email: {linha['email']}\nNome: {linha['nome']}")
 
             print("\nHistórico de empréstimos:")
             tem_historico = False
 
             for i in emprestimos:
-                if i['usuario_id'] == linha['id']:
+                if i['usuario_email'] == linha['email']:
                     tem_historico = True
                     comando_sql1 = "SELECT titulo FROM livros WHERE id = ?"
                     cursor.execute(comando_sql1, (i['livro_id'],))
@@ -247,14 +246,14 @@ def listar_emprestimos():
             cursor.execute(comando_sql, (i['livro_id'],))
             nome_livro = cursor.fetchone()[0]
 
-            comando_sql2 = "SELECT nome FROM usuarios WHERE id = ?"
-            cursor.execute(comando_sql2, (i['usuario_id'],))
-            nome_usu = cursor.fetchone()[0]
+            comando_sql2 = "SELECT nome FROM usuarios WHERE email = ?"
+            cursor.execute(comando_sql2, (i['usuario_email'],))
+            email_usu = cursor.fetchone()[0]
 
         
             print(f"\n >> Id: {i['id']}")
             print(f"\nLivro: {nome_livro}")
-            print(f"Usuário: {nome_usu}")
+            print(f"Usuário: {email_usu}")
             print(f"Data do empréstimo: {i['data_emprestimo']}")
             print(f"Data devolução: {i['data_devolucao']}")
             print("\n====================\n")

@@ -7,7 +7,7 @@ conn.execute("DROP TABLE IF EXISTS emprestimos")
 sql_create = """
     CREATE TABLE emprestimos (id INTEGER PRIMARY KEY AUTOINCREMENT,
         livro_id INTEGER REFERENCES livros(id),
-        usuario_id INTEGER REFERENCES usuarios(id),
+        usuario_email TEXT REFERENCES usuarios(email),
         data_emprestimo DATE DEFAULT CURRENT_DATE,
         data_devolucao DATE)
 """
