@@ -9,7 +9,7 @@ sql_create = """CREATE TABLE livros (id INTEGER PRIMARY KEY AUTOINCREMENT,
             editora_id INTEGER REFERENCES editoras(id),
             ano_publicacao INTEGER,
             edicao INTEGER,
-            estoque INTEGER,
+            estoque INTEGER
             )"""
 
 conn.execute(sql_create)
