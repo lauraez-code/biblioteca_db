@@ -9,27 +9,13 @@ def cadastrar_livro_autor_editora():
     cursor = conn.cursor()
 
     # Infos livro + autor + editora
-    while True:
-        disponivel = False
-        titulo = input("\nDigite o título do livro: ")
-        autor = input("\nDigite o autor do livro: ")
-        editora = input("\nDigite a editora do livro: ")
-        ano_publicacao = input("\nDigite o ano de publicação do livro: ")
-        edicao = input("\nDigite a edição do livro: ")
-        estoque = input("\nDigite o estoque do livro: ")
-        disponivel_input = input("\nDigite 1 para disponível e 2 para indisponível: ")
-
-        if disponivel_input == "1":
-            disponivel = True
-            print("\n>> Cadastro concluido com sucesso!")
-            break
-
-        elif disponivel_input == "2":
-            print("\n>> Cadastro concluido com sucesso!")
-            break
-        else:
-            print("\n>> Digite uma opção válida.")
-            
+    disponivel = False
+    titulo = input("\nDigite o título do livro: ")
+    autor = input("\nDigite o autor do livro: ")
+    editora = input("\nDigite a editora do livro: ")
+    ano_publicacao = input("\nDigite o ano de publicação do livro: ")
+    edicao = input("\nDigite a edição do livro: ")
+    estoque = input("\nDigite o estoque do livro: ")          
     
     # Verificando se já tem autores
 
@@ -87,8 +73,8 @@ def cadastrar_livro_autor_editora():
 
     #Cadastrando Livro
 
-    conn.execute("INSERT INTO livros (titulo, autor_id, editora_id, edicao, ano_publicacao, estoque, disponivel) VALUES(?,?,?,?,?,?)",
-    (titulo, id_autor, id_editora, edicao, ano_publicacao, estoque, disponivel,))
+    conn.execute("INSERT INTO livros (titulo, autor_id, editora_id, edicao, ano_publicacao, estoque) VALUES(?,?,?,?,?,?)",
+    (titulo, id_autor, id_editora, edicao, ano_publicacao, estoque,))
     conn.commit()
 
     conn.close()
@@ -121,11 +107,6 @@ def listar_livros():
 
 
             print(f"\nTítulo: {linha['titulo']}\n\n  >> Id: {linha['id']}\n\n\n  Autor: {nome_autor}\n  Editora: {nome_editora}\n  Edição: {linha['edicao']}\n  Ano Publicação: {linha['ano_publicacao']}\n  Estoque: {linha['estoque']}")
-
-            if linha['disponivel'] == 1:
-                print("\n  >> Disponível")
-            else:
-                print("\n  >> Indisponível")
 
             print("\n====================\n")
 

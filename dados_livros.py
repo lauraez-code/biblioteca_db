@@ -10,7 +10,6 @@ sql_create = """CREATE TABLE livros (id INTEGER PRIMARY KEY AUTOINCREMENT,
             ano_publicacao INTEGER,
             edicao INTEGER,
             estoque INTEGER,
-            disponivel BOOLEAN NOT NULL DEFAULT 1 CHECK (disponivel IN(0,1))
             )"""
 
 conn.execute(sql_create)
