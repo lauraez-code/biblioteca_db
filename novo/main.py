@@ -4,8 +4,7 @@ conn = sqlite.connect("biblioteca.db")
 conn.row_factory = sqlite.Row
 cursor = conn.cursor()
 
-from livros_autores_editoras import cadastrar_livro_autor_editora, listar_autores, listar_editoras, listar_livros
-from usuarios_emprestimos import cadastrar_usuarios, fazer_emprestimo_ver_historico, listar_emprestimos, listar_usuarios
+
 
 while True:
 
@@ -18,7 +17,7 @@ while True:
 
     if menu == '1':
         fazer_login()
-        
+
 
 
 

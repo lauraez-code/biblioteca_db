@@ -191,8 +191,7 @@ def listar_usuarios():
     conn.row_factory = sqlite.Row
 
     cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM usuarios")
+    er_emprestimo()
     usuarios = cursor.fetchall()
 
     cursor.execute("SELECT * FROM emprestimos")

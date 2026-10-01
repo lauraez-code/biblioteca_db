@@ -1,5 +1,9 @@
 import sqlite3 as sqlite
 
+from livros_autores_editoras import cadastrar_livro_autor_editora
+from listas import listar_autores, listar_editoras, listar_livros, listar_emprestimos, listar_usuarios, listar_historico_usuario
+from emprestimo import fazer_emprestimo
+
 def cadastrar_usuarios():
 
     conn = sqlite.connect("biblioteca.db")
@@ -80,16 +84,19 @@ def fazer_login():
     else:
         print("\n>> Usuário não encontrado.")
     
+    import config
+    config.email_usuario = email_usu
+    
     conn.close()
 
-def menu_usuario(email_usu):
+def menu_usuario(email_usuario):
 
     conn = sqlite.connect("biblioteca.db")
     conn.row_factory = sqlite.Row
     cursor = conn.cursor()    
 
     comando = "SELECT nome FROM usuarios WHERE email = ?"
-    cursor.execute(comando, (email_usu,))
+    cursor.execute(comando, (email_usuario,))
     nome_usu = cursor.fetchone()[0]
 
     while True:
@@ -130,7 +137,8 @@ def menu_root():
         print("[2] - Usuários")
         print("[3] - Editoras")
         print("[4] - Autores")
-        print("[5] - Sair")
+        print("[5] - Emprestimos")
+        print("[6] - Sair")
     
         menu = input("\n>> Digite uma opção: ")
 
@@ -146,7 +154,7 @@ def menu_root():
                 op = input("\n>> Digite uma opção: ")
 
                 if op == '1':
-                    cadastrar_livro()
+                    cadastrar_livro_autor_editora()
                 
                 elif op == '2':
                     listar_livros()
@@ -172,7 +180,7 @@ def menu_root():
                     listar_usuarios()
                 
                 elif opp == '2':
-                    ver_historico_usuario()
+                    listar_historico_usuario()
                 
                 elif opp == '3':
                     break
@@ -186,13 +194,18 @@ def menu_root():
         elif menu == '4':
             listar_autores()
         
-        elif menu == '5':
+        elif menu == "5":
+            listar_emprestimos()
+        
+        elif menu == '6':
             break
         
         else:
             print("\n>> Digite uma opção válida.")
     
     conn.close()
+
+
 
 
         
